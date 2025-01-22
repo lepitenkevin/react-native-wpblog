@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// App.tsx
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import PostListScreen from "./src/screens/PostListScreen";
+import PostDetailScreen from "./src/screens/PostDetailScreen";
+import { WPPost } from "./src/types";
 
-export default function App() {
+export type RootStackParamList = {
+  PostList: undefined;
+  PostDetail: { post: WPPost };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const App: React.FC = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="PostList">
+        <Stack.Screen
+          name="PostList"
+          component={PostListScreen}
+          options={{ title: "Posts" }}
+        />
+        <Stack.Screen
+          name="PostDetail"
+          component={PostDetailScreen}
+          options={{ title: "Post Details" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
